@@ -1,0 +1,207 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <!-- <li class="breadcrumb-item active" aria-current="page" (click)="(book)">Gerenciamento de Vendas</li>
+    <li class="breadcrumb-item active" aria-current="page" (click)="createBook(book)">Cadastro de Livros</li>
+    <li class="breadcrumb-item active" aria-current="page" (click)="createCustomer(book)">Cadastro de Clientes</li> -->
+  </ol>
+</nav>
+<!-- tab 1 -->
+<div class="container">
+  <div class="card list-car">
+    <h5 class="card-header">Vendas realizadas</h5>
+    <div class="card-body">
+      <table class="table">
+          <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nome do Cliente</th>
+                <th scope="col">CEP do Cliente</th>
+                <th scope="col">Título do Livro</th>
+                <th scope="col">Preço do Livro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let salesBook of salesBooks">
+              <td>{{salesBook.salesBookId}}</td>
+              <td>{{salesBook.customerName}}</td>
+              <td>{{salesBook.customerZipCode}}</td>
+              <td>{{salesBook.titleBook}}</td>
+              <td>{{salesBook.priceBook| currency}}</td>
+              <td>
+                <button type="button" class="btn btn-warning btn-sm" (click)="editSalesBook(salesBook)">Editar</button>
+                <button type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteSalesBook(salesBook)">Deletar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+  <div class="card add-car">
+      <h5 class="card-header">Adicionar/Atualizar Venda</h5>
+      <div class="card-body">
+          <form id="add-form" (ngSubmit)="saveSalesBook(f3)" #f3="ngForm" novalidate>
+            <!-- <div class="form-group">
+                <label for="idVenda">Número da venda</label>
+                <input type="text" [(ngModel)]="salesBook.salesBookId" id="idVenda" name="idVenda" #model="ngModel" required class="form-control">
+            </div> -->
+            <div class="form-group">
+                <label for="clienteId">Nome do Cliente</label>
+                <select class="form-control" [(ngModel)]="clienteId" name= "clienteId" (ngModelChange)="changeCustomerValue()">
+                  <option value="0">Selecione um cliente</option>
+                  <option *ngFor="let cliente of customers" value={{cliente.id}}>
+                    {{cliente.name}}
+                  </option>
+                 </select>
+                <!-- <input type="text" [(ngModel)]="salesBook.customerName" id="customerName" name="customerName" #color="ngModel" required class="form-control"> -->
+                
+            </div>
+            <div class="form-group">
+              <label for="zipCode">CEP</label>
+              <input type="text" [(ngModel)]="salesBook.customerZipCode" id="zipCode" name="zipCode" #price="ngModel" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="bookTitle">Nome do livro</label>
+            <select class="form-control" [(ngModel)]="livroId" name= "livroId" (ngModelChange)="changeBookValue()">
+               <option value="0">Selecione um livro</option>
+              <option *ngFor="let livro of books" value={{livro.id}}>
+                {{livro.title}}
+              </option>
+             </select>
+            <!-- <input type="text" [(ngModel)]="salesBook.titleBook" id="bookTitle" name="bookTitle" #price="ngModel" required class="form-control"> -->
+        </div>
+          
+            <div class="form-group">
+                <label for="price">Preço</label>
+                <input type="number" [(ngModel)]="salesBook.priceBook" id="price" name="price" #price="ngModel" required class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary btn-add-car">Salvar</button>
+            <button type="reset" class="btn btn-secondary btn-add-car" (click)="cleanFormSalesBook(f3)">Cancelar</button>
+          </form>
+      </div>
+    </div>
+  </div>
+    <!-- tab 2    -->
+  <div class="container">
+    <div class="card list-car">
+      <h5 class="card-header">Lista de livros</h5>
+      <div class="card-body">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Título</th>
+                <th scope="col">Preço</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let book of books">
+                <td>{{book.id}}</td>
+                <td>{{book.author}}</td>
+                <td>{{book.description}}</td>
+                <td>{{book.title}}</td>
+                <td>{{book.price| currency}}</td>
+                <td>
+                  <button type="button" class="btn btn-warning btn-sm" (click)="editBook(book)">Editar</button>
+                  <button type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteBook(book)">Deletar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+    <div class="card add-car">
+        <h5 class="card-header">Adicionar/Atualizar Livro</h5>
+        <div class="card-body">
+            <form id="add-form" (ngSubmit)="f.form.valid && saveBook(f)" #f="ngForm" novalidate>
+              <div class="form-group">
+                  <label for="title">Título</label>
+                  <input type="text" [(ngModel)]="book.title" id="title" name="title" #model="ngModel" required class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="color">Descrição</label>
+                  <input type="text" [(ngModel)]="book.description" id="color" name="color" #color="ngModel" required class="form-control">
+                  
+              </div>
+              <div class="form-group">
+                <label for="author">Autor</label>
+                <input type="text" [(ngModel)]="book.author" id="author" name="author" #price="ngModel" required class="form-control">
+            </div>
+              <div class="form-group">
+                  <label for="price">Preço</label>
+                  <input type="number" [(ngModel)]="book.price" id="price" name="price" #price="ngModel" required class="form-control">
+              </div>
+              <button type="submit" class="btn btn-primary btn-add-car">Salvar</button>
+              <button type="reset" class="btn btn-secondary btn-add-car" (click)="cleanForm(f)">Cancelar</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  <!-- tab 3 -->
+  <div class="container">
+    <div class="card list-car">
+      <h5 class="card-header">Lista de Clientes</h5>
+      <div class="card-body">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">CPF/RG</th>
+                <th scope="col">Address</th>
+                <th scope="col">Email</th>
+                <th scope="col">CEP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let customer of customers">
+                <td>{{customer.id}}</td>
+                <td>{{customer.name}}</td>
+                <td>{{customer.numberRegister}}</td>
+                <td>{{customer.address}}</td>
+                <td>{{customer.email}}</td>
+                <td>{{customer.zipCode}}</td>
+                <td>
+                  <button type="button" class="btn btn-warning btn-sm" (click)="editCustomer(customer)">Editar</button>
+                  <button type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteCustomer(customer)">Deletar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  
+    <div class="card add-car">
+        <h5 class="card-header">Adicionar/Atualizar Cliente</h5>
+        <div class="card-body">
+            <form id="add-form" (ngSubmit)="f2.form.valid && saveCustomer(f2)" #f2="ngForm" novalidate>
+              <div class="form-group">
+                  <label for="name">Nome</label>
+                  <input type="text" [(ngModel)]="customer.name" id="name" name="name" #model="ngModel" required class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="CPF">CPF/RG</label>
+                  <input type="text" [(ngModel)]="customer.numberRegister" id="CPF" name="CPF" #color="ngModel" required class="form-control">
+                  
+              </div>
+              <div class="form-group">
+                <label for="endereco">Endereço</label>
+                <input type="text" [(ngModel)]="customer.address" id="endereco" name="endereco" #price="ngModel" required class="form-control">
+            </div>
+              <div class="form-group">
+                  <label for="mail">Email</label>
+                  <input type="text" [(ngModel)]="customer.email" id="mail" name="mail" #price="ngModel" required class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="cep">CEP</label>
+                <input type="number" [(ngModel)]="customer.zipCode" id="cep" name="cep" #price="ngModel" required class="form-control">
+            </div>
+              <button type="submit" class="btn btn-primary btn-add-car">Salvar</button>
+              <button type="reset" class="btn btn-secondary btn-add-car" (click)="cleanFormCustomer(f2)">Cancelar</button>
+            </form>
+        </div>
+      </div>
+  </div>
+
